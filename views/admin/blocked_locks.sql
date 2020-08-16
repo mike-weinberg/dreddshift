@@ -145,6 +145,7 @@ blocked_statements_w_blocking_transactions AS
 -- main
 SELECT  main.blocked_statement_pid
         , main.blocked_statement_xid
+        , main.blocked_statement_waittime_minutes AS blocked_statement_lock_waittime_minutes -- time the blocked statement has been waiting for a lock on the relation in question.
         , main.blocked_statement_sql_preview
         , main.blocked_statement_unacquired_lock_mode|| ' LOCK REQUEST FOR ' 
                 || main.blocked_statement_relation_schema_name
