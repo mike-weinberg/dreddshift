@@ -1,3 +1,4 @@
+SET QUERY_GROUP TO 'dreddshift-build';
 /*
 This view is a runbook generator. 
 
