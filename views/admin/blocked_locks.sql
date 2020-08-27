@@ -161,5 +161,7 @@ SELECT  main.blocked_statement_pid
                 ||' MINUTES. TO KILL THAT TRANSACTION RUN THE CODE IN THE NEXT COLUMN.' AS lock_summary 
         , 'SELECT PG_TERMINATE_BACKEND('||main.blocking_lock_pid||');' AS blocking_lock_termination_sql
         , blocking_lock_statement_sql_preview
+        , main.blocking_lock_pid
+        , main.blocking_lock_xid
 FROM blocked_statements_w_blocking_transactions main
 WITH NO SCHEMA BINDING
