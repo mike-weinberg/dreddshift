@@ -63,7 +63,7 @@ blocked_locks AS
             , lock_mode                             AS blocked_statement_unacquired_lock_mode 
             , current_statement_duration_minutes    AS blocked_statement_waittime_minutes
             , query_preview                         AS blocked_statement_sql_preview
-            , user_name                             AS blocked_statemeent_user_name
+            , user_name                             AS blocked_statement_user_name
     FROM   locks
     WHERE  lock_is_granted IS FALSE
 ),
@@ -78,7 +78,7 @@ blocking_locks AS --locks which are blocking other locks
             , locks.relation_name                   AS locked_relation_name
             , locks.transaction_duration_minutes    AS blocking_lock_duration_minutes
             , locks.query_preview                   AS blocking_lock_statement_sql_preview
-            , user_name                             AS blocking_statemeent_user_name
+            , user_name                             AS blocking_statement_user_name
     
     FROM locks
     INNER JOIN blocked_locks ON  blocked_locks.blocked_statement_relation_id = locks.relation_id
@@ -134,14 +134,14 @@ blocked_statements_w_blocking_transactions AS
             , blocked_locks.blocked_statement_unacquired_lock_mode  AS blocked_statement_unacquired_lock_mode
             , blocked_locks.blocked_statement_waittime_minutes      AS blocked_statement_waittime_minutes
             , blocked_locks.blocked_statement_sql_preview           AS blocked_statement_sql_preview
-            , blocked_locks.blocked_statemeent_user_name            AS blocked_statemeent_user_name
+            , blocked_locks.blocked_statement_user_name            AS blocked_statement_user_name
                                                                     -- blocking lock details
             , blocking_locks.blocking_lock_pid                      AS blocking_lock_pid
             , blocking_locks.blocking_lock_xid                      AS blocking_lock_xid
             , blocking_locks.locked_relation_id                     AS exclusive_locked_relation_id
             , blocking_locks.blocking_lock_duration_minutes         AS blocking_lock_duration_minutes
             , blocking_locks.blocking_lock_statement_sql_preview    AS blocking_lock_statement_sql_preview
-            , blocking_locks.blocking_statemeent_user_name          AS blocking_statemeent_user_name
+            , blocking_locks.blocking_statement_user_name          AS blocking_statement_user_name
 
     FROM blocked_locks
     LEFT JOIN blocking_locks ON locked_relation_id = blocked_statement_relation_id
@@ -150,7 +150,7 @@ blocked_statements_w_blocking_transactions AS
 -- main
 SELECT  main.blocked_statement_pid
         , main.blocked_statement_xid
-        , main.blocked_statemeent_user_name
+        , main.blocked_statement_user_name
         , main.blocked_statement_waittime_minutes AS blocked_statement_lock_waittime_minutes -- time the blocked statement has been waiting for a lock on the relation in question.
         , main.blocked_statement_sql_preview
         , main.blocked_statement_unacquired_lock_mode|| ' LOCK REQUEST FOR ' 
@@ -168,6 +168,6 @@ SELECT  main.blocked_statement_pid
         , blocking_lock_statement_sql_preview
         , main.blocking_lock_pid
         , main.blocking_lock_xid
-        , main.blocking_statemeent_user_name
+        , main.blocking_statement_user_name
 FROM blocked_statements_w_blocking_transactions main
 WITH NO SCHEMA BINDING
