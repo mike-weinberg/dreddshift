@@ -19,4 +19,6 @@ Or not.
 
 I'm not habitually a punctual person.
 
+Anyway, I'm starting to feel a little more upbeat about Redshift! 2020-2021 had a lot of great updates for Redshift, and it doesn't seem like the pace of progress is going to slow significantly any time soon. So if you're reading this and considering switching to Snowflake, maybe hold off for a little longer, see what happens. 
+
 If you were expecting more out of this README, pay me! Or... look for the other readmes in each folder in this free repo. Your choice. Your money is not no good here. Unless it's counterfeit, stolen, or otherwise in violation of some law, custom, or cultural/religions tradition. 
